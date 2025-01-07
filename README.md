@@ -72,8 +72,10 @@ riscv64-unknown-elf-objdump: Dumps the assembly and other details from the compi
 
 -d: Disassembles the object file to show machine instructions.
   
-![task1.2](https://github.com/user-attachments/assets/2d8cb00b-4cec-4dee-abf7-16a97ef335fa)
+![task1.2](https://github.com/user-attachments/assets/2d8cb00b-4cec-4dee-abf7-16a97ef335fa) 
+
 ![task1. 3](https://github.com/user-attachments/assets/3524f1e8-bed1-4481-9857-af440e8b4e53)
+
 ![task1 .4](https://github.com/user-attachments/assets/b89ac945-6728-4505-bef2-e437c7362cda)
 
 4.**Observations**
