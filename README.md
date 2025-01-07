@@ -49,7 +49,7 @@ gcc: The GNU Compiler Collection is used to compile C programs into executable b
 
 3. **Run the Program Using the RISC-V Compiler:**
    #### Commands and explanation
-    -**View the C Program in Terminal:**
+    - **View the C Program in Terminal:**
    ```bash
    cat sum1ton.c
 cat: Displays the content of the file sum1ton.
