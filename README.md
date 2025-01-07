@@ -28,7 +28,7 @@ To install the RISC-V toolchain using VDI, write a C program to calculate the su
 #### Steps Performed:
 
 1. **Install the RISC-V Toolchain**  
-   - Installed the RISC-V toolchain using the provided VDI (Virtual Desktop Infrastructure).
+   - Installed the RISC-V toolchain by following this [procedure](./VDI and virtual Box Download Procedure).
    - Verified the installation by running a simple test program.
 
 2. **Write a C Program to Compute the Sum of Numbers (1 to N):**  
