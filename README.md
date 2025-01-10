@@ -84,5 +84,7 @@ riscv64-unknown-elf-objdump: Dumps the assembly and other details from the compi
 - The `riscv64-unknown-elf-objdump` command provided detailed assembly-level instructions for verification.
 - The observed number of instructions confirm proper optimization and compatibility with the RISC-V architecture.
 
-
+----
+<details>
+<summary>Task 2</summary>
 
