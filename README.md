@@ -145,7 +145,7 @@ To provide a clear understanding of the debugging process, here are images highl
 
 
 **Outcome:**  
-Task 2 enhanced knowledge of RISC-V by providing practical experience in compiling, executing, and debugging programs at an instruction level. This provided a practical understanding of the RISC-V architecture by exploring program execution and debugging at the instruction level. It enhanced familiarity with tools like the `spike` simulator for running and analyzing RISC-V binaries. The debugging process demonstrated how high-level code translates into machine instructions and allowed for step-by-step verification of program behavior. Additionally, the task highlighted the impact of compiler optimizations on instruction flow and performance. This hands-on experience strengthened foundational knowledge of RISC-V ISA and improved debugging skills for low-level programming.
+Task 2 enhanced knowledge of RISC-V by providing practical experience in compiling, executing, and debugging programs at an instruction level. This provided a practical understanding of the RISC-V architecture by exploring program execution and debugging at the instruction level. It enhanced familiarity with tools like the `spike` simulator for running and analyzing RISC-V binaries. The debugging process demonstrated how high-level code translates into machine instructions and allowed for step-by-step verification of program behavior. 
 
 
 
