@@ -18,7 +18,7 @@ RISC-V's open nature fosters innovation, making it a popular choice for designin
 - Backed by a global community and rich ecosystem.
 -----
 <details>
-<summary>Task 1</summary>
+<summary>Task 1:Introduction to RISC-V Architecture and Compilation Workflow</summary>
 
 #### Objective:
 To install the RISC-V toolchain using VDI, write a C program to calculate the sum of numbers from 1 to N, and verify that the output from the C program matches the result obtained using the RISC-V compiler.
@@ -85,7 +85,68 @@ riscv64-unknown-elf-objdump: Dumps the assembly and other details from the compi
 - The observed number of instructions confirm proper optimization and compatibility with the RISC-V architecture.
 
 ----
-
+</details>
+<hr>
 <details>
-<summary>Task 2</summary>
+<summary>Task 2:Exploring RISC-V Through Program Debugging</summary>
+ 
+
+**Objective:**  
+
+The objective of Task 2 was to understand the execution flow and behavior of programs on the RISC-V architecture by writing and compiling programs, executing them on the Spike simulator, and analyzing their instruction-level execution.
+
+---
+
+**Summary:**  
+1. **Implementation:**  
+   - Programs were written and validated in a high-level programming language.  
+   - These programs were compiled for the RISC-V architecture using the RISC-V GCC compiler with various optimization flags.  
+
+2. **Execution and Debugging:**  
+   - The compiled binaries were executed using the `spike` simulator, a RISC-V ISA simulator.  
+   - Debugging was performed using the `spike d` command to examine the instruction-by-instruction execution flow.  
+   - Each instruction was analyzed manually from the program counter (PC) to understand the program's behavior.
+
+3. **Key Learnings:**  
+   - Developed a deeper understanding of the RISC-V assembly-level execution.  
+   - Learned the relationship between high-level code and RISC-V instructions.  
+   - Gained hands-on experience with debugging tools and techniques for the RISC-V environment.
+
+4. **Tools Used:**  
+   - RISC-V GCC for compiling programs.  
+   - Spike simulator for running and debugging the binaries.  
+5. **Images for Debugging Workflow**
+
+To provide a clear understanding of the debugging process, here are images highlighting key steps during the execution and analysis:
+
+- **Running the Program in Spike Simulator**  
+
+   Description: This image shows the execution of the compiled RISC-V binary in the Spike simulator. It demonstrates how the program was run and the initial output observed.  
+
+![2 25](https://github.com/user-attachments/assets/c5734d1f-41ff-4939-bf76-c38aa433bd3a)
+
+
+- **Debugging Instructions Using `spike d`**  
+
+   Description: This image highlights the usage of the `spike d` command to debug the program. It includes the first set of instructions and the program counter value at the start of debugging.  
+
+![2 22](https://github.com/user-attachments/assets/c779a7b1-c8aa-4f92-9d85-affe0306d957)
+
+![2 23](https://github.com/user-attachments/assets/77961d83-b047-4dfa-8979-bfa6c0cd0acb)
+
+
+- **Step-by-Step Instruction Analysis**  
+
+   Description: This image depicts the manual execution of each instruction during the debugging process, showing how the outputs were verified step-by-step.  
+
+![2 24](https://github.com/user-attachments/assets/68cf3ba7-f52f-4116-8cfe-46d95b46063c)
+
+---
+
+
+**Outcome:**  
+Task 2 enhanced knowledge of RISC-V by providing practical experience in compiling, executing, and debugging programs at an instruction level. This provided a practical understanding of the RISC-V architecture by exploring program execution and debugging at the instruction level. It enhanced familiarity with tools like the `spike` simulator for running and analyzing RISC-V binaries. The debugging process demonstrated how high-level code translates into machine instructions and allowed for step-by-step verification of program behavior. Additionally, the task highlighted the impact of compiler optimizations on instruction flow and performance. This hands-on experience strengthened foundational knowledge of RISC-V ISA and improved debugging skills for low-level programming.
+
+
+
 
