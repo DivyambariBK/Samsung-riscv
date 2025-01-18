@@ -147,6 +147,488 @@ To provide a clear understanding of the debugging process, here are images highl
 **Outcome:**  
 Task 2 enhanced knowledge of RISC-V by providing practical experience in compiling, executing, and debugging programs at an instruction level. This provided a practical understanding of the RISC-V architecture by exploring program execution and debugging at the instruction level. It enhanced familiarity with tools like the `spike` simulator for running and analyzing RISC-V binaries. The debugging process demonstrated how high-level code translates into machine instructions and allowed for step-by-step verification of program behavior. 
 
+</details>
+<hr>
+<details>
+<summary>Task 3:RISC-V Instructions </summary>
+
+# RISC-V Instruction Formats and Encoding
+
+## Introduction
+
+The RISC-V instruction set architecture (ISA) is a highly modular and extensible design that supports multiple instruction formats. These formats are used to represent various operations and their associated operands. Each instruction format has been carefully designed to balance simplicity, flexibility, and efficiency in hardware implementation and software development.
+
+### Key Types of Instruction Formats
+
+1. **R-Type (Register-Register)**:
+   - Used for operations that involve only registers.
+   - Example: Arithmetic or logical operations such as `add`, `sub`, etc.
+
+2. **I-Type (Immediate)**:
+   - Used for instructions that operate on a register and an immediate value.
+   - Example: Load instructions such as `lw` or arithmetic operations like `addi`.
+
+3. **S-Type (Store)**:
+   - Used for store instructions where data is written to memory.
+   - Example: `sw`, `sd`.
+
+4. **B-Type (Branch)**:
+   - Used for conditional branch instructions.
+   - Example: `beq`, `bne`.
+
+5. **U-Type (Upper Immediate)**:
+   - Used for instructions that load a 20-bit immediate value.
+   - Example: `lui`, `auipc`.
+
+6. **J-Type (Jump)**:
+   - Used for unconditional jump instructions.
+   - Example: `jal`.
+
+---
+
+## Importance of Instruction Formats
+
+### 1. **Instruction Decoding**
+Instruction formats allow hardware to efficiently decode the binary representation of instructions. By following a standard layout, the control unit can quickly identify the operation (`opcode`), registers (`rd`, `rs1`, `rs2`), and immediate values.
+
+### 2. **Pipelining**
+A consistent instruction format simplifies pipelining, where multiple instructions are executed simultaneously at different stages. The fixed width of RISC-V instructions ensures smooth transitions between stages and reduces pipeline hazards.
+
+### 3. **Processor Design**
+The compact and uniform instruction formats reduce hardware complexity, enabling simpler and cost-efficient processors. RISC-V’s design philosophy minimizes transistor usage while maintaining high performance.
+
+### 4. **Compiler Design**
+Instruction formats play a critical role in optimizing compiler-generated code. The availability of specific formats, such as `I-Type` for immediate values or `B-Type` for branching, ensures that compilers can generate efficient machine code for different tasks.
+
+### 5. **Extensibility**
+The modular design of RISC-V allows the addition of custom instruction formats without disrupting existing ones. This makes the ISA future-proof and adaptable for new technologies.
+
+---
+
+## Explanation of Key Components
+
+### 1. **Opcode**
+- The `opcode` specifies the operation to be performed. It is a field in every instruction that indicates the instruction type and the operation (e.g., arithmetic, memory access, branching).
+- Example:
+  - `0110011`: Specifies an `R-Type` operation (arithmetic).
+
+### 2. **funct3 and funct7**
+- These fields are used in `R-Type` and some other instructions to further differentiate operations that share the same `opcode`.
+- Example:
+  - For `add` and `sub`, the `opcode` is the same, but `funct7` distinguishes them:
+    - `funct7 = 0000000` → `add`
+    - `funct7 = 0100000` → `sub`
+
+### 3. **Immediate Value**
+- The `immediate` value is a constant encoded directly in the instruction.
+- Immediate values are commonly used for:
+  - Memory addresses in load/store instructions.
+  - Offsets in branch instructions.
+  - Direct arithmetic with constants.
+
+### 4. **Registers (`rd`, `rs1`, `rs2`)**
+- Registers are the primary storage locations for data during instruction execution.
+  - `rd`: Destination register (where the result is written).
+  - `rs1`: Source register 1 (contains the first operand).
+  - `rs2`: Source register 2 (contains the second operand, if applicable).
+
+### 5. **Split Immediate**
+- Some instruction formats split the immediate value into multiple parts for efficient encoding.
+  - Example in `S-Type`:
+    - `imm[11:5]`: High bits of the immediate value.
+    - `imm[4:0]`: Low bits of the immediate value.
+
+---
+
+## Summary Table of Instruction Formats
+
+| Format | Description                          | Fields                                                                 |
+|--------|--------------------------------------|-----------------------------------------------------------------------|
+| R-Type | Register-Register operations         | `opcode`, `rd`, `funct3`, `rs1`, `rs2`, `funct7`                     |
+| I-Type | Immediate operations and loads       | `opcode`, `rd`, `funct3`, `rs1`, `imm[11:0]`                         |
+| S-Type | Store instructions                   | `opcode`, `imm[11:5]`, `rs2`, `rs1`, `funct3`, `imm[4:0]`            |
+| B-Type | Conditional branches                 | `opcode`, `imm[12]`, `imm[10:5]`, `rs1`, `rs2`, `funct3`, `imm[4:1]` |
+| U-Type | Load upper immediate                 | `opcode`, `rd`, `imm[31:12]`                                         |
+| J-Type | Unconditional jumps                  | `opcode`, `rd`, `imm[20]`, `imm[10:1]`, `imm[11]`, `imm[19:12]`      |
+
+---
+# RISC-V Instruction Encoding
+
+This repository contains an analysis and encoding of 13 unique RISC-V instructions obtained from the `riscv-objdump` of a sample application. Below, you will find details about RISC-V instruction types, their use cases, and step-by-step instruction encodings.
+
+---
+
+## Instruction Encodings
+
+Below is the encoding of 13 RISC-V instructions. The first 5 instructions are explained in detail, while the rest are summarized in a table.
+
+---
+
+### **Instruction 1: `lui a0, 0x21`**
+
+#### 1. Understand the Instruction
+- **lui** stands for **"Load Upper Immediate"**.
+- It loads a 20-bit immediate value into the upper 20 bits of a register.
+- **Syntax**: `lui rd, imm`
+  - `rd`: Destination register (here, `a0`).
+  - `imm`: Immediate value (here, `0x21`).
+
+---
+
+#### 2. RISC-V Instruction Format
+The `lui` instruction uses the **U-type format**, which has the following structure:
+imm[31:12] | rd[11:7] | opcode[6:0]
+
+
+##### Field Descriptions:
+- `imm[31:12]`: The immediate value (shifted left by 12 bits).
+- `rd[11:7]`: The destination register.
+- `opcode[6:0]`: Opcode for `lui` (which is `0110111`).
+
+---
+
+#### 3. Immediate Value Encoding
+- The immediate value is `0x21`.
+- In binary: `000000000000000000100001`.
+- Shift it left by 12 bits:
+  `00000000001000010000000000000000`
+
+---
+
+#### 4. Destination Register (`a0`)
+- In RISC-V, the register `a0` corresponds to register `x10`.
+- The binary encoding for `x10` is:`01010`
+
+---
+
+#### 5. Opcode for `lui`
+- The opcode for `lui` is:`0110111`
+
+---
+
+#### 6. Combine the Fields
+Assemble the instruction fields:
+
+| Field        | Value (Binary)                |
+|--------------|-------------------------------|
+| `imm[31:12]` | `00000000001000010000`        |
+| `rd[11:7]`   | `01010`                       |
+| `opcode[6:0]`| `0110111`                     |
+
+##### Full Instruction (Binary):`00000000001000010000 01010 0110111`
+
+---
+
+#### 7. Convert to Hexadecimal
+- Group the binary instruction into 4-bit chunks:`0000 0000 0010 0001 0000 0101 0110 1111`
+- Convert to hexadecimal:`0x00210537`
+
+---
+
+#### Final Encoded Instruction
+The instruction `lui a0, 0x21` is encoded as:`0x00210537`
+
+---
+
+### **Instruction 2: `addi sp, sp, -16`**
+
+#### **Instruction Breakdown**
+
+1. **Instruction Type:** `I-Type`  
+   - `addi` performs an immediate addition between a register and a constant.
+
+2. **Fields:**
+
+| **Field**    | **Value (Binary)**       |
+|--------------|--------------------------|
+| `imm[11:0]`  | `111111000000`           |
+| `rs1`        | `00010`                  |
+| `funct3`     | `000`                    |
+| `rd`         | `00010`                  |
+| `opcode`     | `0010011`                |
+
+3. **32-bit Encoded Instruction**
+
+Concatenate the fields:`imm[11:0] | rs1 | funct3 | rd | opcode`
+                        `111111000000 00010 000 00010 0010011`
+
+**Resulting binary:** `11111100000000010000000100010011`  
+**Hexadecimal Encoding:** `0xfff08013`
+
+---
+
+### **Instruction 3: `li a1, 5`**
+
+1. **Instruction Type:** `I-Type`  
+   - `li` is a pseudo-instruction for `addi`.
+
+2. **Fields:**  
+
+| **Field**    | **Value (Binary)**       |
+|--------------|--------------------------|
+| `imm[11:0]`  | `000000000101`           |
+| `rs1`        | `00000`                  |
+| `funct3`     | `000`                    |
+| `rd`         | `01011`                  |
+| `opcode`     | `0010011`                |
+
+3. **32-bit Encoded Instruction:**  
+
+Concatenate the fields:`imm[11:0] | rs1 | funct3 | rd | opcode`
+                       `000000000101 00000 000 01011 0010011`
+
+**Resulting Binary:** `000000000101000000000101100010011`  
+**Hexadecimal Encoding:** `0x00500893`
+
+---
+
+### **Instruction 4: `add a0, a0, a1`**
+
+1. **Instruction Type:** `R-Type`  
+   - `add` adds two registers.
+
+2. **Fields:**  
+
+| **Field**    | **Value (Binary)**       |
+|--------------|--------------------------|
+| `funct7`     | `0000000`                |
+| `rs2`        | `01011`                  |
+| `rs1`        | `01010`                  |
+| `funct3`     | `000`                    |
+| `rd`         | `01010`                  |
+| `opcode`     | `0110011`                |
+
+3. **32-bit Encoded Instruction:**  
+
+Concatenate the fields:`funct7 | rs2 | rs1 | funct3 | rd | opcode`
+                       `0000000 01011 01010 000 01010 0110011`
+
+**Binary:** `000000001011010100000010100110011`  
+**Hexadecimal Encoding:** `0x00b50533`
+
+---
+
+### **Instruction 5: `sd ra, 8(sp)`**
+
+1. **Instruction Type:** `S-Type`  
+   - `sd` stores a double word in memory.
+
+2. **Fields:**  
+
+| **Field**    | **Value (Binary)**       |
+|--------------|--------------------------|
+| `imm[11:5]`  | `0000000`                |
+| `rs2`        | `00001`                  |
+| `rs1`        | `00010`                  |
+| `funct3`     | `011`                    |
+| `imm[4:0]`   | `01000`                  |
+| `opcode`     | `0100011`                |
+
+3. **32-bit Encoded Instruction:**  
+
+Concatenate the fields:`imm[11:5] | rs2 | rs1 | funct3 | imm[4:0] | opcode`
+                       `0000000 00001 00010 011 01000 0100011`
+
+**Binary:** `00000000000100010011001000100011`  
+**Hexadecimal Encoding:** `0x00132223`
+
+---
+
+
+### Instruction 6: `sd ra, 8(sp)`
+
+`sd` uses the **S-Type** instruction format:`imm[11:5] | rs2[24:20] | rs1[19:15] | funct3[14:12] | imm[4:0] | opcode[6:0]`
+
+#### Breakdown of Fields:
+
+| **Field**   | **Value**         | **Binary Representation** |
+|-------------|-------------------|----------------------------|
+| Immediate   | `8`               | `0000000001000`           |
+| Base (rs1)  | `sp (x2)`         | `00010`                   |
+| Source (rs2)| `ra (x1)`         | `00001`                   |
+| `funct3`    | For `sd`          | `011`                     |
+| `opcode`    | For `sd`          | `0100011`                 |
+
+#### Splitting the Immediate:
+
+| **Field**       | **Binary Value** |
+|------------------|------------------|
+| `imm[11:5]`     | `0000000`        |
+| `imm[4:0]`      | `01000`          |
+
+#### Combine the Fields:
+`0000000 | 00001 | 00010 | 011 | 01000 | 0100011`
+
+#### Encoded Instruction:
+
+| **Representation**   | **Value**         |
+|-----------------------|-------------------|
+| Binary               | `00000000000100010011010000100011` |
+| Hexadecimal          | `0x00113423`      |
+
+---
+
+### Instruction 7: `jal ra, 10484`
+
+`jal` uses the **J-Type** instruction format:`imm[20] | imm[10:1] | imm[11] | imm[19:12] | rd[11:7] | opcode[6:0]`
+
+#### Breakdown of Fields:
+
+| **Field**       | **Value**         | **Binary Representation** |
+|------------------|-------------------|----------------------------|
+| Immediate (imm) | `10484`           | `001010001100100`          |
+| Destination (rd)| `ra (x1)`         | `00001`                    |
+| `opcode`        | For `jal`         | `1101111`                  |
+
+#### Splitting the Immediate:
+
+| **Field**       | **Binary Value** |
+|------------------|------------------|
+| `imm[20]`       | `0`              |
+| `imm[10:1]`     | `0011001000`     |
+| `imm[11]`       | `1`              |
+| `imm[19:12]`    | `00101000`       |
+
+#### Combine the Fields:
+`0 | 0011001000 | 1 | 00101000 | 00001 | 1101111`
+
+#### Encoded Instruction:
+
+| **Representation**   | **Value**         |
+|-----------------------|-------------------|
+| Binary               | `00000011101111000000000011101111` |
+| Hexadecimal          | `0x3bc000ef`      |
+
+---
+
+
+### Instruction 8: `mv a0, a2`
+- `mv` is a pseudoinstruction and translates to:`addi a0, a2, 0`
+- **Instruction Format**: I-type
+- **Fields**:
+- Immediate (`imm`): `0` → Binary: `000000000000`.
+- Source register (`rs1`): `a2` (`x12`) → Binary: `01100`.
+- Destination register (`rd`): `a0` (`x10`) → Binary: `01010`.
+- `funct3`: For `addi`, `funct3 = 000`.
+- `opcode`: For `addi`, `opcode = 0010011`.
+- **Combine**:`imm[11:0] | rs1[19:15] | funct3[14:12] | rd[11:7] | opcode[6:0] `
+              `000000000000 | 01100 | 000 | 01010 | 0010011`
+- **Hexadecimal**:`0x00060513`
+
+---
+
+### Instruction 9: `mv a7, a1`
+- `mv` is a pseudoinstruction and translates to:`addi a7, a1, 0`
+- **Instruction Format**: I-type
+- **Fields**:
+- Immediate (`imm`): `0` → Binary: `000000000000`.
+- Source register (`rs1`): `a1` (`x11`) → Binary: `01011`.
+- Destination register (`rd`): `a7` (`x17`) → Binary: `10001`.
+- `funct3`: For `addi`, `funct3 = 000`.
+- `opcode`: For `addi`, `opcode = 0010011`.
+- **Combine**:`imm[11:0] | rs1[19:15] | funct3[14:12] | rd[11:7] | opcode[6:0]`
+              ` 000000000000 | 01011 | 000 | 10001 | 0010011`
+- **Hexadecimal**:`0x00058a13`
+
+---
+
+### Instruction 10: `ecall`
+- `ecall` is a system instruction and directly encodes as:`000000000000 | 00000 | 000 | 00000 | 111001`
+- **Hexadecimal**:`0x00000073`
+
+---
+
+### Instruction 11: `ld ra, 8(sp)`
+- `ld` uses the I-type format:`imm[11:0] | rs1[19:15] | funct3[14:12] | rd[11:7] | opcode[6:0]`
+- **Fields**:
+- Immediate (`imm`): `8` → Binary: `0000000001000`.
+- Base register (`rs1`): `sp` (`x2`) → Binary: `00010`.
+- Destination register (`rd`): `ra` (`x1`) → Binary: `00001`.
+- `funct3`: For `ld`, `funct3 = 011`.
+- `opcode`: For `ld`, `opcode = 0000011`.
+- **Combine**:`0000000001000 | 00010 | 011 | 00001 | 0000011
+- **Hexadecimal**:`0x00813003`
+
+---
+
+### Instruction 12: `addi sp, sp, 16`
+- **Instruction Format**: I-type
+- **Fields**:
+- Immediate (`imm`): `16` → Binary: `0000000010000`.
+- Source register (`rs1`): `sp` (`x2`) → Binary: `00010`.
+- Destination register (`rd`): `sp` (`x2`) → Binary: `00010`.
+- `funct3`: For `addi`, `funct3 = 000`.
+- `opcode`: For `addi`, `opcode = 0010011`.
+- **Combine**:`imm[11:0] | rs1[19:15] | funct3[14:12] | rd[11:7] | opcode[6:0]`
+              `0000000010000 | 00010 | 000 | 00010 | 0010011`
+- **Hexadecimal**:`0x01010113`
+
+---
+
+### Instruction 13: `ret`
+- `ret` is a pseudoinstruction and translates to:`jalr x0, 0(ra)`
+- - **Instruction Format**: I-type
+- **Fields**:
+- Immediate (`imm`): `0` → Binary: `000000000000`.
+- Base register (`rs1`): `ra` (`x1`) → Binary: `00001`.
+- Destination register (`rd`): `x0` → Binary: `00000`.
+- `funct3`: For `jalr`, `funct3 = 000`.
+- `opcode`: For `jalr`, `opcode = 1100111`.
+- **Combine**:`imm[11:0] | rs1[19:15] | funct3[14:12] | rd[11:7] | opcode[6:0]`
+              `000000000000 | 00001 | 000 | 00000 | 1100111`
+- **Hexadecimal**:`0x00008067`
+
+### Instruction 14: `AUIPC a5, 0xFFFF0`
+- **Instruction**: `AUIPC` loads a 20-bit immediate value into the upper 20 bits of the destination register and adds the PC value to it.
+- **Instruction Format**: U-type
+- **Fields**:
+  - Immediate (`imm[31:12]`): `0xFFFF0` → Binary: `11111111111111110000`.
+  - Destination register (`rd`): `a5` (`x15`) → Binary: `01111`.
+  - Opcode: For `AUIPC`, `opcode = 0010111`.
+- **Combine**:`11111111111111110000 01111 0010111`
+- **Convert to Hexadecimal**:`0xFFFFF797`
+
+---
+
+### Instruction 15: `ADDI a5, a5, -220`
+
+- **Instruction**: `ADDI` adds an immediate value to a source register and stores the result in a destination register.  
+- **Instruction Format**: I-type  
+
+#### Fields:
+1. **Immediate (`imm[11:0]`)**:  
+   - Value: `-220`  
+   - Convert to binary (12-bit signed):  
+     `-220` in decimal → Two's complement → `111111001110`.  
+
+2. **Source register (`rs1`)**:  
+   - Register: `a5` → Corresponds to `x15` in RISC-V.  
+   - Binary: `01111`.  
+
+3. **Destination register (`rd`)**:  
+   - Register: `a5` → Corresponds to `x15` in RISC-V.  
+   - Binary: `01111`.  
+
+4. **funct3**:  
+   - For `ADDI`, `funct3 = 000`.  
+
+5. **Opcode**:  
+   - Opcode for `ADDI`: `0010011`.  
+
+#### Combine Fields:
+The final instruction format is:`imm[11:0] | rs1[19:15] | funct3[14:12] | rd[11:7] | opcode[6:0]` 
+                                `111111001110 | 01111 | 000 | 01111 | 0010011` 
+
+#### Convert to Hexadecimal:
+1. Group the binary:  
+   `1111 1100 1110 0111 1000 0011 0011`.  
+
+2. Convert to hexadecimal:  
+   `0xFCF78313`.  
+
+#### Final Encoded Instruction:
+The instruction `ADDI a5, a5, -220` is encoded as:`0xFCF78313`.    
+
 
 
 
