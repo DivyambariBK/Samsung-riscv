@@ -150,7 +150,7 @@ Task 2 enhanced knowledge of RISC-V by providing practical experience in compili
 </details>
 <hr>
 <details>
-<summary>Task 3:RISC-V Instructions </summary>
+<summary>Task 3:Understanding RISC-V Instructions </summary>
 
 # RISC-V Instruction Formats and Encoding
 
@@ -254,13 +254,15 @@ The modular design of RISC-V allows the addition of custom instruction formats w
 ---
 # RISC-V Instruction Encoding
 
-This repository contains an analysis and encoding of 13 unique RISC-V instructions obtained from the `riscv-objdump` of a sample application. Below, you will find details about RISC-V instruction types, their use cases, and step-by-step instruction encodings.
+This repository contains an analysis and encoding of 15 unique RISC-V instructions obtained from the `riscv-objdump` of a sample application. Below, you will find details about RISC-V instruction types, their use cases, and step-by-step instruction encodings.
 
 ---
 
 ## Instruction Encodings
 
-Below is the encoding of 13 RISC-V instructions. The first 5 instructions are explained in detail, while the rest are summarized in a table.
+Below is the encoding of 15 RISC-V instructions. The first 5 instructions are explained in detail, while the rest are summarized in a table.
+
+![2 24](https://github.com/user-attachments/assets/77b7fa47-1109-4577-8257-85639a039c8d)
 
 ---
 
@@ -629,6 +631,118 @@ The final instruction format is:`imm[11:0] | rs1[19:15] | funct3[14:12] | rd[11:
 #### Final Encoded Instruction:
 The instruction `ADDI a5, a5, -220` is encoded as:`0xFCF78313`.    
 
+</details>
+<hr>
+<details>
+<summary>Task 4: Simulation of RISC-V Core Verilog netlist and testbench. </summary>
+
+   `NOTE: Since the designing of RISCV Architecture and writing it's testbench is not the part of this Research Internship, so we will use the Verilog Code and Testbench of RISCV that 
+    has already been designed. The reference GitHub repository is : iiitb_rv32i`
 
 
+## Objective
+The objective of this task is to perform simulation of the RISK-V core using LogNetList and TestBench. The simulation involves compiling the Verilog files, generating a `.vcd` file, and observing the waveform in GTKWave.
 
+---
+
+## Steps to Perform Simulation
+
+### 1. Setting up the Environment
+- Ensure you have the following installed:
+  - **Icarus Verilog** for compiling and simulating Verilog files.
+  - **GTKWave** for waveform analysis.
+- Use a Linux-based system or a terminal supporting Verilog tools.
+
+### 2. Create Required Files
+- Create the following files:
+  1. **LogNetList**: Contains the design implementation in Verilog (e.g., `divya_rv32i.v`).
+  2. **TestBench**: A Verilog file to simulate the design (e.g., `divya_rv32i_tb.v`).
+
+### 3. TestBench Requirements
+Ensure your testbench includes the following lines to generate a `.vcd` file:
+`verilog
+initial begin
+    $dumpfile("divya_rv32i.vcd");  // Specify the .vcd file name
+    $dumpvars(0, <module_name>);  // Replace <module_name> with the top module name
+end `
+
+### 4. Compile the Verilog Files
+Run the following command in the terminal to compile your Verilog files:
+`iverilog -o divya_rv32i divya_rv32i.v divya_rv32i_tb.v`
+
+
+### 5.Run the Simulation
+Execute the following command to simulate the design and generate the .vcd file:
+`./divya_rv32i`
+
+### 6. Observe the Waveform in GTKWave
+Open the .vcd file in GTKWave using the following command:
+`gtkwave divya_rv32i.vcd`
+
+## Analysing Waveform
+
+The waveforms were analysed for the below instructions
+
+![4 11](https://github.com/user-attachments/assets/1a2b3d7d-874d-410f-b06e-6629961a1d6c)
+
+
+### Instruction 1: `add r6, r1, r2 `
+
+#### **Input:**
+- Values: `1` and `2`
+#### **Output:**
+- Result: `3`
+#### **Explanation**:
+- r1 = 1
+- r2 = 2
+- r6 = r1 + r2 = 3
+
+![3 1](https://github.com/user-attachments/assets/6285c2b1-9eb5-4993-9e85-bec820719079)
+
+
+### Insrtuction 2: `sub r7, r1, r2`
+
+#### **Input:**
+- Values: `1` and `3`
+#### **Output:**
+- Result: `FFFFFFFF` (32-bit representation of `-1` in two's complement)
+#### **Analysis:**
+The output `FFFFFFFF` suggests that the operation performed was a **Subtraction** resulting in a negative value. This matches a **SUB** instruction in your instruction set.
+
+![4 2](https://github.com/user-attachments/assets/0d56b63d-0608-4716-8d33-bdadb3579b7c)
+
+
+### Instruction 3: `slt r11, r2, r5`
+
+#### **Input:**
+- Values: `2` and `5`
+#### **Output:**
+- Result: `1`
+#### **Analysis:**
+The output `1` indicates a **Set Less Than** operation, where the result is `1` if the first input is less than the second input. This matches an **SLT** instruction in your instruction set.
+
+![4 3](https://github.com/user-attachments/assets/3387ff00-485d-43be-b677-d9d943158e2b)
+
+
+### Instruction 4: `add r6, r1, r4`
+
+#### **Input:**
+- Values: `1` and `4`
+#### **Output:**
+- Result: `7`
+#### **Analysis:**
+The output `7` indicates an **Addition** operation, where the two inputs are summed. This matches an **ADD** instruction in your instruction set.
+
+![4 4](https://github.com/user-attachments/assets/3e2d9dad-c3c2-4bce-8fe5-a2ae42c95006)
+
+
+### Instruction 5: `slt r11, r2, r4 `
+
+#### **Input:**
+- Values: `4` and `5`
+#### **Output:**
+- Result: `1`
+#### **Analysis:**
+The output `1` indicates a **Set Less Than (SLT)** operation, which compares two inputs and returns `1` if the first input is less than the second input.
+
+![4 6](https://github.com/user-attachments/assets/db25668e-4dce-4c30-8ae7-6db285801047)
