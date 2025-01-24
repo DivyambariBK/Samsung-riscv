@@ -679,6 +679,9 @@ Execute the following command to simulate the design and generate the .vcd file:
 Open the .vcd file in GTKWave using the following command:
 `gtkwave divya_rv32i.vcd`
 
+![4 10](https://github.com/user-attachments/assets/c6c1a1f7-cca7-4336-a14a-e94394080760)
+
+
 ## Analysing Waveform
 
 The waveforms were analysed for the below instructions
