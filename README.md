@@ -1,5 +1,12 @@
 # Samsung-RISC V
 -----
+### Authors Details:
+
+ - **Name**: Divyambari BK
+ - **College**: SJB Instuite of Technology
+ - **LinkedIn Id**: [Divyambari BK](www.linkedin.com/in/divyambaribk)
+ - **Email Id**: divyambaribk01@gmail.com
+-----
 ## Introduction to RISC-V
 
 **RISC-V** is a revolutionary open-standard Instruction Set Architecture (ISA) rooted in the principles of Reduced Instruction Set Computing (RISC). Unlike traditional proprietary ISAs, RISC-V is free and open-source, enabling widespread adoption across industries, academia, and research communities. It was initially developed at the University of California, Berkeley, and has since become a global standard in the field of processor architecture.
