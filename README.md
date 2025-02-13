@@ -781,14 +781,16 @@ Below is the list of components needed to build the project:
 ---
 ## **Block Diagram**
 
-![5 1](https://github.com/user-attachments/assets/c56624ce-d04e-4ce9-90e9-1400ed8cf9bb)
+![5 4](https://github.com/user-attachments/assets/aea09317-cd54-4a45-bf3b-af3f43cdb850)
+
 
 ---
 
 ## **Circuit Connection Diagram**
 ### **Pinout Diagram**
   
-![5 3](https://github.com/user-attachments/assets/8eb36fc4-2497-4217-99f4-ff231e9da43b)
+![5 1](https://github.com/user-attachments/assets/53268873-cfaa-4f3d-b8d7-7dc547316ddc)
+
 
 
 ---
