@@ -787,7 +787,9 @@ Below is the list of components needed to build the project:
 
 ## **Circuit Connection Diagram**
 ### **Pinout Diagram**
-> 🔹 **[Create a PowerPoint-based Pinout Diagram]**  
+  
+![5 3](https://github.com/user-attachments/assets/8eb36fc4-2497-4217-99f4-ff231e9da43b)
+
 
 ---
 
