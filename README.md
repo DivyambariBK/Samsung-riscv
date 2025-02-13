@@ -789,7 +789,8 @@ Below is the list of components needed to build the project:
 ## **Circuit Connection Diagram**
 ### **Pinout Diagram**
   
-![5 1](https://github.com/user-attachments/assets/53268873-cfaa-4f3d-b8d7-7dc547316ddc)
+
+![5 3](https://github.com/user-attachments/assets/9065c0f9-3e45-4efe-ac6b-f285a22afbdf)
 
 
 
