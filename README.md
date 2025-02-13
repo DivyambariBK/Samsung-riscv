@@ -778,6 +778,10 @@ Below is the list of components needed to build the project:
 7. **Buzzer** – For emergency vehicle alert  
 8. **Breadboard & Jumper Wires**  
 9. **Power Supply (5V)**  
+---
+## **Block Diagram**
+
+![5 1](https://github.com/user-attachments/assets/c56624ce-d04e-4ce9-90e9-1400ed8cf9bb)
 
 ---
 
