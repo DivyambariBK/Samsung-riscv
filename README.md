@@ -5,7 +5,7 @@
  - **Name**: Divyambari BK
  - **College**: SJB Instuite of Technology
  - **LinkedIn Id**: [Divyambari BK](www.linkedin.com/in/divyambaribk)
- - **Email Id**: divyambaribk01@gmail.com
+ - **Email Id**: divyambaribk@gmail.com
 -----
 ## Introduction to RISC-V
 
@@ -756,3 +756,78 @@ The output `7` indicates an **Addition** operation, where the two inputs are sum
 The output `1` indicates a **Set Less Than (SLT)** operation, which compares two inputs and returns `1` if the first input is less than the second input.
 
 ![4 6](https://github.com/user-attachments/assets/db25668e-4dce-4c30-8ae7-6db285801047)
+
+</details>
+<hr>
+<details>
+<summary>Task 5: Adaptive Traffic Signal System using RISC-V </summary>
+
+## Overview  
+This project implements a **smart traffic signal system** using a **RISC-V board**, **ultrasonic sensors**, and **RFID technology**. The system dynamically adjusts signal timings based on real-time traffic congestion and provides emergency vehicle clearance using RFID detection. This helps in reducing traffic congestion and ensuring faster movement of emergency vehicles.
+
+## Components Required  
+Below is the list of components needed to build the project:
+
+### **Hardware Components**
+1. **RISC-V Board** 
+2. **Ultrasonic Sensor (HC-SR04)** – For measuring traffic congestion  
+3. **RFID Reader Module (RC522)** – To detect emergency vehicles  
+4. **RFID Tags** – Attached to emergency vehicles  
+5. **Traffic Light LEDs** (Red, Yellow, Green)  
+6. **Resistors (220Ω, 1kΩ)** – For LED current limiting  
+7. **Buzzer** – For emergency vehicle alert  
+8. **Breadboard & Jumper Wires**  
+9. **Power Supply (5V)**  
+
+---
+
+## **Circuit Connection Diagram**
+### **Pinout Diagram**
+> 🔹 **[Create a PowerPoint-based Pinout Diagram]**  
+
+---
+
+## **Circuit Connections**  
+The following table describes the pin connections between the **RISC-V Board** and hardware components:
+
+| **Component**      | **Pin Name**       | **RISC-V Board Pin** |
+|--------------------|--------------------|----------------------|
+| **Ultrasonic Sensor (HC-SR04)** | VCC | 5V |
+|  | GND | GND |
+|  | TRIG | GPIO 5 |
+|  | ECHO | GPIO 6 |
+| **RFID Reader (RC522)** | VCC | 3.3V |
+|  | GND | GND |
+|  | RST | GPIO 7 |
+|  | MISO | GPIO 9 |
+|  | MOSI | GPIO 10 |
+|  | SCK | GPIO 11 |
+| **Traffic Lights (LEDs)** | Red LED | GPIO 2 |
+|  | Yellow LED | GPIO 3 |
+|  | Green LED | GPIO 4 |
+| **Buzzer** | VCC | 5V |
+|  | GND | GND |
+|  | Signal | GPIO 8 |
+
+---
+
+## **How It Works**
+1. **Traffic Monitoring:**  
+   - The **ultrasonic sensor** measures vehicle density.  
+   - If congestion is high, the **green light duration** is increased.  
+
+2. **Emergency Vehicle Detection:**  
+   - If an **RFID-tagged emergency vehicle** is detected, the **red light turns off** and the **green light activates** to clear the road.  
+
+3. **Traffic Light Control:**  
+   - LEDs switch based on real-time traffic conditions.  
+
+---
+
+## **Summary of Circuit Functionality**
+1. The **ultrasonic sensor** detects vehicle congestion and **adjusts the green light duration**.
+2. The **RFID reader** detects emergency vehicles and **immediately turns the green light ON**.
+3. The **traffic lights (Red, Yellow, Green)** operate based on traffic conditions.
+4. The **buzzer provides an alert** when an emergency vehicle is detected.
+
+---
