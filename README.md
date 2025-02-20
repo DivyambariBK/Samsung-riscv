@@ -999,7 +999,9 @@ int main() {
 
 ## **🎥 8️⃣ Video Demonstration**  
 
-*(A video showcasing the working model will be attached here.)*  
+
+https://github.com/user-attachments/assets/fac050a7-4232-4613-80da-a7d9b91653fd
+
 
 ---
 
