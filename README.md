@@ -840,3 +840,183 @@ The following table describes the pin connections between the **RISC-V Board** a
 4. The **buzzer provides an alert** when an emergency vehicle is detected.
 
 ---
+
+</details>
+<hr>
+<details>
+<summary>Task 6:Adaptive Traffic Signal System using RISC-V:Final Implementation . </summary>
+
+### **Adaptive Traffic Signal System**  
+
+---
+
+## **📌 1️⃣ Project Overview**
+The **Adaptive Traffic Signal System** is a **smart traffic management solution** that dynamically adjusts signal timings based on **real-time vehicle congestion detection**. This implementation **does not** include RFID-based emergency vehicle detection yet, but it is planned for future development.
+
+✅ **Current Implementation:**
+- **Traffic Congestion Detection using Ultrasonic Sensors**  
+- **Automated Traffic Light Control (Red, Yellow, Green LEDs)**  
+- **Buzzer Alerts for High Congestion**  
+
+🚀 **Future Scope:**  
+- **RFID-based Emergency Vehicle Detection** (To clear signals for ambulances & police)  
+- **AI-based Smart Traffic Optimization**  
+
+---
+
+## **🛠️ 2️⃣ Components Required**
+| **Component** | **Quantity** | **Purpose** |
+|--------------|------------|-------------|
+| **RISC-V Board (CH32V003F4U6)** | 1 | Main Microcontroller |
+| **Ultrasonic Sensor (HC-SR04)** | 1 | Measures vehicle congestion |
+| **Traffic Signal LEDs (Red, Yellow, Green)** | 3 | Simulate traffic lights |
+| **Buzzer** | 1 | Alerts during high traffic congestion |
+| **Voltage Divider (20kΩ, 10kΩ resistors)** | 2 | Converts Ultrasonic Sensor Echo from 5V to 3.3V |
+| **Connecting Wires** | As required | Circuit connections |
+
+---
+
+## **📡 3️⃣ Circuit Connections**
+### **🔹 Ultrasonic Sensor (HC-SR04)**
+| **HC-SR04 Pin** | **RISC-V GPIO Pin** | **Notes** |
+|---------------|-----------------|------------|
+| **VCC**       | **5V**           | ✅ Power (Safe) |
+| **GND**       | **GND**          | ✅ Common Ground |
+| **TRIG**      | **PC4**          | ✅ Digital Output (Trigger) |
+| **ECHO**      | **PC6 (via Voltage Divider)** | ⚠️ Use **20kΩ + 10kΩ resistors** |
+
+### **🔹 Traffic Light LEDs**
+| **LED**      | **RISC-V GPIO Pin** |
+|-------------|-----------------|
+| **Red LED** | **PD0** |
+| **Yellow LED** | **PD1** |
+| **Green LED** | **PD2** |
+
+### **🔹 Buzzer**
+| **Buzzer Pin** | **RISC-V GPIO Pin** |
+|-------------|-----------------|
+| **VCC**     | **5V** |
+| **GND**     | **GND** |
+| **Signal**  | **PD5 (PWM Capable)** |
+
+---
+
+## **🚀 4️⃣ How the System Works**
+1️⃣ The **Ultrasonic Sensor** continuously monitors vehicle congestion at an intersection.  
+2️⃣ If **traffic is heavy**, the **Green Light duration is extended** to clear congestion.  
+3️⃣ If **traffic is normal**, the system follows a **fixed Red-Yellow-Green cycle**.  
+4️⃣ **Buzzer alerts** when traffic is extremely high to notify authorities.  
+
+---
+
+## **💻 5️⃣ Final Code Implementation**
+### **🚀 Adaptive Traffic Signal System (Without RFID)**
+```c
+#include <stdio.h>
+#include "ch32v003fun.h"
+
+// 🚦 Define GPIO Pins for Traffic Lights
+#define RED_LIGHT   GPIO_Pin_0  // PD0
+#define YELLOW_LIGHT GPIO_Pin_1 // PD1
+#define GREEN_LIGHT  GPIO_Pin_2 // PD2
+
+// 🔊 Define Buzzer Pin
+#define BUZZER GPIO_Pin_5 // PD5
+
+// 📡 Define GPIO Pins for Ultrasonic Sensor
+#define TRIG GPIO_Pin_4  // PC4
+#define ECHO GPIO_Pin_6  // PC6
+
+// 🚀 Initialize GPIO Pins
+void setup() {
+    FUNCONF_Init();
+    
+    // 🚦 Setup Traffic Light LEDs
+    GPIO_Init(GPIOD, RED_LIGHT, GPIO_Mode_Out_PP);
+    GPIO_Init(GPIOD, YELLOW_LIGHT, GPIO_Mode_Out_PP);
+    GPIO_Init(GPIOD, GREEN_LIGHT, GPIO_Mode_Out_PP);
+
+    // 🔊 Setup Buzzer
+    GPIO_Init(GPIOD, BUZZER, GPIO_Mode_Out_PP);
+    
+    // 📡 Setup Ultrasonic Sensor
+    GPIO_Init(GPIOC, TRIG, GPIO_Mode_Out_PP);
+    GPIO_Init(GPIOC, ECHO, GPIO_Mode_IN_FLOATING);
+}
+
+// 📡 Function to Measure Distance (Ultrasonic Sensor)
+float measure_distance() {
+    GPIO_ResetBits(GPIOC, TRIG);
+    delay(2);
+    GPIO_SetBits(GPIOC, TRIG);
+    delay(10);
+    GPIO_ResetBits(GPIOC, TRIG);
+
+    while (!GPIO_ReadInputDataBit(GPIOC, ECHO));
+    long startTime = micros();
+    while (GPIO_ReadInputDataBit(GPIOC, ECHO));
+    long travelTime = micros() - startTime;
+
+    float distance = travelTime / 58.0;
+    return distance;
+}
+
+// 🚦 Traffic Signal Control Logic
+void control_traffic(float distance) {
+    if (distance < 10) { // 🚗 Heavy Traffic
+        printf("🚗 High Traffic! Extending GREEN Light.\n");
+        GPIO_SetBits(GPIOD, GREEN_LIGHT);
+        GPIO_ResetBits(GPIOD, RED_LIGHT);
+        GPIO_SetBits(GPIOD, BUZZER);
+    } 
+    else {
+        printf("✅ Normal Traffic Flow.\n");
+        GPIO_ResetBits(GPIOD, GREEN_LIGHT);
+        GPIO_SetBits(GPIOD, RED_LIGHT);
+    }
+
+    delay(5000); // Simulate light duration
+    GPIO_ResetBits(GPIOD, BUZZER); // Turn off buzzer
+}
+
+int main() {
+    setup();
+    while (1) {
+        float distance = measure_distance();  // Get Traffic Data
+        control_traffic(distance);  // Update Traffic Lights
+    }
+    return 0;
+}
+```
+
+## **🌍 6️⃣ Where Can This Be Implemented?**
+🚦 Urban Cities – Reduce congestion and improve traffic flow.
+🚑 Near Hospitals – Future RFID integration can clear roads for ambulances.
+🏫 School Zones – Adaptive signals can ensure student safety.
+🏭 Industrial Areas – Prevent truck congestion at intersections.
+
+---
+
+## **📌 7️⃣ Future Enhancements**
+🚀 RFID-Based Emergency Vehicle Detection (Automatically clear signals for ambulances & police).
+🚀 AI-Based Vehicle Recognition (Use Computer Vision to improve traffic detection).
+🚀 IoT-Based Data Analytics (Store real-time traffic data for optimization).
+🚀 Smartphone App Control (Manually override signals in case of emergencies).
+
+---
+
+## **🎥 8️⃣ Video Demonstration**
+
+
+
+---
+
+## **📢 9️⃣ Conclusion**
+
+This Adaptive Traffic Signal System using RISC-V provides a low-cost, automated, and real-world applicable solution for traffic congestion. By leveraging Ultrasonic Sensors for congestion detection, the system optimizes traffic flow and enhances road safety.
+
+🔹 Current Implementation: Ultrasonic-based traffic control ✅
+🔹 Future Upgrade: RFID-based emergency vehicle clearance 🚑
+
+🚀 This project demonstrates the power of RISC-V in real-world applications!
+
