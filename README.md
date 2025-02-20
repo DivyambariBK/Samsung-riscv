@@ -920,9 +920,6 @@ The **Adaptive Traffic Signal System** is a **smart traffic management solution*
 #define YELLOW_LIGHT GPIO_Pin_1 // PD1
 #define GREEN_LIGHT  GPIO_Pin_2 // PD2
 
-// 🔊 Define Buzzer Pin
-#define BUZZER GPIO_Pin_5 // PD5
-
 // 📡 Define GPIO Pins for Ultrasonic Sensor
 #define TRIG GPIO_Pin_4  // PC4
 #define ECHO GPIO_Pin_6  // PC6
@@ -935,9 +932,6 @@ void setup() {
     GPIO_Init(GPIOD, RED_LIGHT, GPIO_Mode_Out_PP);
     GPIO_Init(GPIOD, YELLOW_LIGHT, GPIO_Mode_Out_PP);
     GPIO_Init(GPIOD, GREEN_LIGHT, GPIO_Mode_Out_PP);
-
-    // 🔊 Setup Buzzer
-    GPIO_Init(GPIOD, BUZZER, GPIO_Mode_Out_PP);
     
     // 📡 Setup Ultrasonic Sensor
     GPIO_Init(GPIOC, TRIG, GPIO_Mode_Out_PP);
@@ -967,7 +961,6 @@ void control_traffic(float distance) {
         printf("🚗 High Traffic! Extending GREEN Light.\n");
         GPIO_SetBits(GPIOD, GREEN_LIGHT);
         GPIO_ResetBits(GPIOD, RED_LIGHT);
-        GPIO_SetBits(GPIOD, BUZZER);
     } 
     else {
         printf("✅ Normal Traffic Flow.\n");
@@ -976,7 +969,7 @@ void control_traffic(float distance) {
     }
 
     delay(5000); // Simulate light duration
-    GPIO_ResetBits(GPIOD, BUZZER); // Turn off buzzer
+    GPIO_ResetBits(GPIOD); 
 }
 
 int main() {
@@ -990,33 +983,32 @@ int main() {
 ```
 
 ## **🌍 6️⃣ Where Can This Be Implemented?**
-🚦 Urban Cities – Reduce congestion and improve traffic flow.
-🚑 Near Hospitals – Future RFID integration can clear roads for ambulances.
-🏫 School Zones – Adaptive signals can ensure student safety.
-🏭 Industrial Areas – Prevent truck congestion at intersections.
+🚦 **Urban Cities** – Reduce congestion and improve traffic flow.  
+🚑 **Near Hospitals** – Future RFID integration can clear roads for ambulances.  
+🏫 **School Zones** – Adaptive signals can ensure student safety.  
+🏭 **Industrial Areas** – Prevent truck congestion at intersections.  
 
 ---
 
 ## **📌 7️⃣ Future Enhancements**
-🚀 RFID-Based Emergency Vehicle Detection (Automatically clear signals for ambulances & police).
-🚀 AI-Based Vehicle Recognition (Use Computer Vision to improve traffic detection).
-🚀 IoT-Based Data Analytics (Store real-time traffic data for optimization).
-🚀 Smartphone App Control (Manually override signals in case of emergencies).
+🚀 **RFID-Based Emergency Vehicle Detection** - Automatically clear signals for ambulances & police.  
+🚀 **AI-Based Vehicle Recognition** - Use Computer Vision to improve traffic detection.  
+🚀 **IoT-Based Data Analytics** - Store real-time traffic data for optimization.  
 
 ---
 
-## **🎥 8️⃣ Video Demonstration**
+## **🎥 8️⃣ Video Demonstration**  
 
-
+*(A video showcasing the working model will be attached here.)*  
 
 ---
 
-## **📢 9️⃣ Conclusion**
+## **📢 9️⃣ Conclusion**  
 
-This Adaptive Traffic Signal System using RISC-V provides a low-cost, automated, and real-world applicable solution for traffic congestion. By leveraging Ultrasonic Sensors for congestion detection, the system optimizes traffic flow and enhances road safety.
+The **Adaptive Traffic Signal System using RISC-V** provides a **low-cost, automated, and real-world applicable solution** for traffic congestion. By leveraging **Ultrasonic Sensors for congestion detection**, the system **optimizes traffic flow and enhances road safety**.  
 
-🔹 Current Implementation: Ultrasonic-based traffic control ✅
-🔹 Future Upgrade: RFID-based emergency vehicle clearance 🚑
+🔹 **Current Implementation**: Ultrasonic-based traffic control ✅  
+🔹 **Future Upgrade**: RFID-based emergency vehicle clearance 🚑  
 
-🚀 This project demonstrates the power of RISC-V in real-world applications!
+🚀 **This project demonstrates the power of RISC-V in real-world applications!**  
 
